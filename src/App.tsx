@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './App.module.scss';
-import { MyCompaniesPage } from './components/pages/myCompanies/MyCompaniesPage';
+import { MyCompaniesPage } from './components/pages';
 
 function App () {
   return (

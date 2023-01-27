@@ -1,0 +1,49 @@
+.modalConfirmation {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: rgb(255, 255, 255);
+  padding: 2rem 3rem 2.5rem 3rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .IconButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #486377;
+    text-align: center;
+  }
+
+  .message {
+    color: #262626;
+    text-align: center;
+    font-weight: 400;
+    font-size: 0.875rem;
+  }
+
+  .panel {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .cancel {
+      height: 2.438rem;
+      width: 9.313rem;
+    }
+
+    .confirm {
+      height: 2.438rem;
+      width: 17.813rem;
+    }
+  }
+}

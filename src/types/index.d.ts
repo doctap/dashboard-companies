@@ -1,4 +1,4 @@
-type Icon = 'edit_square' | 'delete';
+type Icon = 'edit_square' | 'delete' | 'close';
 
 type HEX = `#${string}`;
 
