@@ -1,1 +1,1 @@
-export * from './http-client/data-contracts';
+export * from './data-contracts/data-contracts';

@@ -2,6 +2,44 @@
   width: 36.125rem;
   height: 7.5rem;
   background: rgba(255, 255, 255, 1);
+  border: 1px solid #FFFFFF;
   border-radius: 6px;
   padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    border-color: #208AD9;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .ImageCard {
+      margin-right: 1.75rem;
+    }
+
+    .text {
+      text-align: start;
+      font-size: 0.875rem;
+
+      div:first-child {
+        margin-bottom: 0.75rem;
+      }
+    }
+  }
+
+  .EditDeleteButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: fit-content;
+    width: 4.188rem;
+  }
 }

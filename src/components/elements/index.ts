@@ -1,2 +1,2 @@
-export * from './buttons/deleteButton/DeleteButton';
-export * from './buttons/editButton/EditButton';
+export * from './buttons/iconButton/IconButton';
+export * from './editDeleteButtons/EditDeleteButtons';

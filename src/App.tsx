@@ -1,11 +1,13 @@
 import React from 'react';
-import './App.css';
-import { CompanyCard } from './components/cards';
+import styles from './App.module.scss';
+import { MyCompaniesPage } from './components/pages/myCompanies/MyCompaniesPage';
 
 function App () {
   return (
-    <div className="App">
-      <CompanyCard />
+    <div className={styles.App}>
+      
+      <MyCompaniesPage />
+
     </div>
   );
 }
