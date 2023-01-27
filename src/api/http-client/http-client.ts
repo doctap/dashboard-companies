@@ -1,4 +1,4 @@
-import { requestCompany } from '../../mybuh';
+import { deleteCompanyServe, getCompaniesServe } from '../../mybuh';
 import { companySlice } from '../../redux/reducers/CompanySlice';
 import type { AppDispatch } from '../../redux/store/store';
 import { base64 as building } from '../../images/building/base64';
@@ -19,9 +19,17 @@ export const validatorCompany = (comp: any[]) => {
 export const fetchCompanies = () => async (dispatch: AppDispatch) => {
   try {
     dispatch(companySlice.actions.companiesFetching());
-    const res = validatorCompany(requestCompany());
+    const res = validatorCompany(getCompaniesServe());
     dispatch(companySlice.actions.companiesFetchingSuccess(res));
   } catch (e: any) {
     dispatch(companySlice.actions.companiesFetchingError(e.message));
+  }
+};
+
+export const deleteCompany = (idCompany: number) => {
+  try {
+    console.log(deleteCompanyServe(idCompany));
+  } catch (e: any) {
+    // сообщить клиенту, что удалить компанию не получилось
   }
 };

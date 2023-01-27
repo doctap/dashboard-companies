@@ -8,6 +8,18 @@
   text-transform: capitalize;
   cursor: pointer;
 
+  &_model1 {
+    background: #005DA1;
+  }
+
+  &_model2 {
+    background: #009A3E;
+  }
+
+  &_model3 {
+    background: #F2F2F2;
+  }
+
   &:disabled {
     background: #9b9b9b;
     opacity: 50%

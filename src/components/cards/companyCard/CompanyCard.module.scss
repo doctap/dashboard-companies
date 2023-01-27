@@ -41,5 +41,10 @@
     align-items: center;
     height: fit-content;
     width: 4.188rem;
+
+    &>*{
+      width: 1em;
+      height: 1em;
+    }
   }
 }

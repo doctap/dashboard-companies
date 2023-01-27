@@ -64,5 +64,13 @@ export const companies: ICompanyServe[] = [
     form_id: 20,
     tax_id: 7,
     logo: null
+  },
+  {
+    company_id: 9,
+    company_name: 'УДАЛИ МЕНЯ ',
+    company_tin: 'И ГЛЯНЬ В КОНСОЛЬ ;)',
+    form_id: 30,
+    tax_id: 30,
+    logo: null
   }
 ];

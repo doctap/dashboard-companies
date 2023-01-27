@@ -1,8 +1,8 @@
 import { companies } from './companies';
 import { ownerships } from './ownerships';
 
-// requests for EXAMPLE
-export function requestCompany (): any[] {
+// bad functions for EXAMPLE server queries
+export const getCompaniesServe = (): any[] => {
   const result: any[] = [];
   const getAccountType = (formId: number) => {
     return ownerships.find(v => v.id === formId) ??
@@ -18,7 +18,15 @@ export function requestCompany (): any[] {
   }));
 
   return result;
-}
+};
+
+export const deleteCompanyServe = (id: number) => {
+  const result = companies.filter(v => v.company_id !== id);
+  companies.length = 0;
+  companies.push(...result);
+  console.log(companies);
+  return '204 successful';
+};
 
 export interface ICompanyServe {
   company_id: number

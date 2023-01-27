@@ -10,12 +10,14 @@ interface IIconButton {
 
 export const IconButton = (props: IIconButton) => {
   return (
-    <button
+    // !!! тег input потому-что тег button в версиях Chrome 111.0.5545.4, 111.0.5545.4
+    // либо Яндекс или Edge (фокус, при передвижении с помощью клавиатуры ведет себя странно)
+    <input
       style={{ color: props.color }}
       className={styles.iconButton}
       onClick={props.onClick}
-    >
-      {props.model}
-    </button>
+      type='button'
+      value={props.model}
+    />
   );
 };

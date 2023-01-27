@@ -9,6 +9,12 @@ export const Button = (props: IButtonProps) => {
 
       case BtnVariants.Primary: return styles.btnPrimary;
 
+      case BtnVariants.Primary_model1: return `${styles.btnPrimary} ${styles.btnPrimary_model1}`;
+
+      case BtnVariants.Primary_model2: return `${styles.btnPrimary} ${styles.btnPrimary_model2}`;
+
+      case BtnVariants.Primary_model3: return `${styles.btnPrimary} ${styles.btnPrimary_model3}`;
+
       case BtnVariants.BtnText: return styles.btnText;
 
       default:

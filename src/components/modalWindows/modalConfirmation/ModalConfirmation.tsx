@@ -1,4 +1,7 @@
 import React from 'react';
+import { fetchCompanies } from '../../../api/http-client/http-client';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks/redux';
+import { modalWindowSlice } from '../../../redux/reducers/ModalWindowSlice';
 import { Button, IconButton } from '../../elements';
 import { BtnVariants } from '../../elements/buttons/btns/ButtonInterface';
 import styles from './ModalConfirmation.module.scss';
@@ -8,10 +11,22 @@ interface IModalConfirmation {
   message: string
   confirmText: string
   cancelText: string
-  onAction: () => void
+  onConsent: (id: number) => void
 }
 
 export const ModalConfirmation = (props: IModalConfirmation) => {
+  const { manageWindow } = modalWindowSlice.actions;
+  const { idCompany } = useAppSelector(st => st.modalConfirmSlice);
+  const dispatch = useAppDispatch();
+  
+  const closeWindow = () => dispatch(manageWindow({ isShow: false, idCompany: 0, indexModal: 0 }));
+
+  const onClick = () => {
+    props.onConsent(idCompany);
+    closeWindow();
+    dispatch(fetchCompanies());
+  };
+
   return (
     <div className={styles.modalConfirmation}>
       <div className={styles.title}>
@@ -19,7 +34,7 @@ export const ModalConfirmation = (props: IModalConfirmation) => {
       </div>
 
       <div className={styles.IconButton}>
-        <IconButton color='#486377' model='close' onClick={() => 0} />
+        <IconButton color='#486377' model='close' onClick={closeWindow} />
       </div>
 
       <div className={styles.message}>
@@ -32,7 +47,7 @@ export const ModalConfirmation = (props: IModalConfirmation) => {
             name={props.cancelText}
             variant={BtnVariants.Border}
             type='button'
-            onClick={() => 0}
+            onClick={closeWindow}
           />
         </div>
         <div className={styles.confirm}>
@@ -40,7 +55,7 @@ export const ModalConfirmation = (props: IModalConfirmation) => {
             name={props.confirmText}
             variant={BtnVariants.Primary}
             type='button'
-            onClick={props.onAction}
+            onClick={onClick}
           />
         </div>
       </div>

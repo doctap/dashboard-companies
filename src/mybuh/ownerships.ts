@@ -189,5 +189,14 @@ export const ownerships: IOwnershipsServe[] = [
     is_jur: true,
     parent_id: 2,
     account_type: 'too'
+  },
+  {
+    id: 30,
+    code: 'chk',
+    full: 'Частная компания',
+    short: 'ЧК',
+    is_jur: true,
+    parent_id: 2,
+    account_type: 'too'
   }
 ];

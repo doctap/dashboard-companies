@@ -1,22 +1,22 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-interface IModalConfirm {
+interface IModal {
   indexModal: number
   isShow: boolean
   idCompany: number
 }
 
-const initialState: IModalConfirm = {
+const initialState: IModal = {
   idCompany: 0,
   isShow: false,
   indexModal: 0
 };
 
-export const modalConfirmSlice = createSlice({
+export const modalWindowSlice = createSlice({
   name: 'modalConfirm',
   initialState,
   reducers: {
-    openCloseWindow (state, action: PayloadAction<IModalConfirm>) {
+    manageWindow (state, action: PayloadAction<IModal>) {
       state.isShow = action.payload.isShow;
       state.idCompany = action.payload.idCompany;
       state.indexModal = action.payload.indexModal;
@@ -24,4 +24,4 @@ export const modalConfirmSlice = createSlice({
   }
 });
 
-export default modalConfirmSlice.reducer;
+export default modalWindowSlice.reducer;
