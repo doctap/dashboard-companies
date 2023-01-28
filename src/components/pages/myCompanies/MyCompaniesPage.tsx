@@ -1,16 +1,37 @@
 import React, { useEffect } from 'react';
-import { deleteCompany, fetchCompanies } from '../../../api/http-client/http-client';
+import { deleteCompany, fetchCompanies } from '../../../api';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks/redux';
+import type { BusinessType } from '../../../types';
 import { Shade } from '../../containers';
 import { EditForm } from '../../forms';
 import { CompanyCardList } from '../../lists';
 import { ModalConfirmation } from '../../modalWindows';
 import styles from './MyCompaniesPage.module.scss';
 
+const business: BusinessType[] = ['ТОО', 'ИП', 'Прочие'];
+
 export const MyCompaniesPage = () => {
   const { items, error, isLoading } = useAppSelector(st => st.companySlice);
-  const { isShow, indexModal } = useAppSelector(st => st.modalConfirmSlice);
+  const { isShow, indexModal, idCompany } = useAppSelector(st => st.modalConfirmSlice);
   const dispatch = useAppDispatch();
+
+  // порядок элементов менять нельзя
+  const modals: JSX.Element[] = [
+    <ModalConfirmation
+      idSubject={idCompany}
+      title='Удаление организации'
+      message='Вы уверены, что хотите удалить организацию из списка?'
+      cancelText='Отменить'
+      confirmText='Удалить'
+      onConsent={deleteCompany}
+      key={1}
+    />,
+    <EditForm
+      idSubject={idCompany}
+      business={business}
+      key={2}
+    />
+  ];
 
   useEffect(() => {
     dispatch(fetchCompanies());
@@ -33,7 +54,7 @@ export const MyCompaniesPage = () => {
       {
         isShow
           ? <Shade>
-            <div className={styles.ModalConfirmation_size}>
+            <div className={styles.Modal_size}>
               {modals[indexModal]}
             </div>
           </Shade>
@@ -42,18 +63,3 @@ export const MyCompaniesPage = () => {
     </div>
   );
 };
-
-// порядок элементов менять нельзя
-const modals: JSX.Element[] = [
-  <ModalConfirmation
-    title='Удаление организации'
-    message='Вы уверены, что хотите удалить организацию из списка?'
-    cancelText='Отменить'
-    confirmText='Удалить'
-    onConsent={deleteCompany}
-    key={1}
-  />,
-  <EditForm
-    key={2}
-  />
-];

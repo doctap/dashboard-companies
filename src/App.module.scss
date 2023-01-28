@@ -2,5 +2,9 @@
   min-height: 100vh;
   padding: 4rem 10rem 0 10rem;
   font-family: 'Open Sans';
+  // position for modal window
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: start;
 }

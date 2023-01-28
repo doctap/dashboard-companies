@@ -1,4 +1,4 @@
-import { deleteCompanyServe, getCompaniesServe } from '../../mybuh';
+import { DELETE_COMPANY_SERVER, GET_COMPANIES_SERVER, GET_COMPANY_BY_ID_SERVER } from '../../mybuh';
 import { companySlice } from '../../redux/reducers/CompanySlice';
 import type { AppDispatch } from '../../redux/store/store';
 import { base64 as building } from '../../images/building/base64';
@@ -19,7 +19,7 @@ export const validatorCompany = (comp: any[]) => {
 export const fetchCompanies = () => async (dispatch: AppDispatch) => {
   try {
     dispatch(companySlice.actions.companiesFetching());
-    const res = validatorCompany(getCompaniesServe());
+    const res = validatorCompany(GET_COMPANIES_SERVER());
     dispatch(companySlice.actions.companiesFetchingSuccess(res));
   } catch (e: any) {
     dispatch(companySlice.actions.companiesFetchingError(e.message));
@@ -28,8 +28,16 @@ export const fetchCompanies = () => async (dispatch: AppDispatch) => {
 
 export const deleteCompany = (idCompany: number) => {
   try {
-    console.log(deleteCompanyServe(idCompany));
+    console.log(DELETE_COMPANY_SERVER(idCompany));
   } catch (e: any) {
-    // сообщить клиенту, что удалить компанию не получилось
+    // сообщить клиенту ошибку
+  }
+};
+
+export const getCompanyById = (id: number) => {
+  try {
+    const res = GET_COMPANY_BY_ID_SERVER(id);
+  } catch (e: any) {
+  // сообщить клиенту ошибку
   }
 };

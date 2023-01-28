@@ -2,7 +2,7 @@ import { companies } from './companies';
 import { ownerships } from './ownerships';
 
 // bad functions for EXAMPLE server queries
-export const getCompaniesServe = (): any[] => {
+export const GET_COMPANIES_SERVER = (): any[] => {
   const result: any[] = [];
   const getAccountType = (formId: number) => {
     return ownerships.find(v => v.id === formId) ??
@@ -20,12 +20,16 @@ export const getCompaniesServe = (): any[] => {
   return result;
 };
 
-export const deleteCompanyServe = (id: number) => {
+export const DELETE_COMPANY_SERVER = (id: number) => {
   const result = companies.filter(v => v.company_id !== id);
   companies.length = 0;
   companies.push(...result);
   console.log(companies);
   return '204 successful';
+};
+
+export const GET_COMPANY_BY_ID_SERVER = (idCompany: number) => {
+  return 1;
 };
 
 export interface ICompanyServe {

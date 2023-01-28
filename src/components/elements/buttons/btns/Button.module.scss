@@ -7,6 +7,7 @@
   background: #2991DC;
   text-transform: capitalize;
   cursor: pointer;
+  font-size: inherit;
 
   &_model1 {
     background: #005DA1;
@@ -18,6 +19,7 @@
 
   &_model3 {
     background: #F2F2F2;
+    color: #262626;
   }
 
   &:disabled {

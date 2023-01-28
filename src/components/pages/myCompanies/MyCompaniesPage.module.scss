@@ -1,4 +1,8 @@
 .myCompaniesPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 75rem;
 
   .title {
     font-weight: 600;
@@ -19,9 +23,9 @@
     }
   }
 
-  .ModalConfirmation_size {
+  .Modal_size {
     height: 12.5rem;
-    width: 34.375rem;
+    width: 35.75rem;
   }
 }
 

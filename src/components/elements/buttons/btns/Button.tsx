@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Button.module.scss';
 import { BtnVariants, type IButtonProps } from './ButtonInterface';
 
-export const Button = (props: IButtonProps) => {
+export function Button <N extends string> (props: IButtonProps<N>) {
   const variantBtn = (v: BtnVariants) => {
     switch (v) {
       case BtnVariants.Border: return styles.btnBorder;
@@ -24,12 +24,13 @@ export const Button = (props: IButtonProps) => {
 
   return (
     <button
-      onClick={props.onClick}
+      onClick={(e) => { props.onClick(e); }}
       type={props.type}
       className={variantBtn(props.variant)}
       disabled={props.disabled}
+      name={props.name}
     >
-      {props.name}
+      {props.text}
     </button>
   );
-};
+}

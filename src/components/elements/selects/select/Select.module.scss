@@ -1,0 +1,62 @@
+.wrapper {
+  position: relative;
+
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #D1D1D1;
+    border-radius: 5px;
+    height: 2.438rem;
+    font-size: 0.875rem;
+
+    .value {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .selected {
+        width: 1rem;
+        text-align: center;
+        white-space: nowrap;
+        padding: 0.625rem 1rem;
+      }
+    }
+
+    .BtnToggleList {
+      height: 100%;
+      width: 2.7rem;
+      padding: 0 5px 0 0;
+    }
+
+  }
+
+  .showList {
+    border: 1px solid #DFE3E5;
+    border-radius: 5px;
+    padding: 10px 15px 0 15px;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 6px 5px rgba(0, 0, 0, 0.12);
+
+    &>* {
+      margin-bottom: 0.4375rem;
+      height: 1.5rem;
+      border: none;
+      text-align: start;
+      background-color: #fff;
+      font-size: 0.875rem;
+    }
+  }
+
+  .hideList {
+    display: none;
+  }
+}

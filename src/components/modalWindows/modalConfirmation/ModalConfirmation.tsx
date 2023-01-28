@@ -12,17 +12,17 @@ interface IModalConfirmation {
   confirmText: string
   cancelText: string
   onConsent: (id: number) => void
+  idSubject: number
 }
 
 export const ModalConfirmation = (props: IModalConfirmation) => {
   const { manageWindow } = modalWindowSlice.actions;
-  const { idCompany } = useAppSelector(st => st.modalConfirmSlice);
   const dispatch = useAppDispatch();
   
   const closeWindow = () => dispatch(manageWindow({ isShow: false, idCompany: 0, indexModal: 0 }));
 
   const onClick = () => {
-    props.onConsent(idCompany);
+    props.onConsent(props.idSubject);
     closeWindow();
     dispatch(fetchCompanies());
   };
@@ -44,6 +44,7 @@ export const ModalConfirmation = (props: IModalConfirmation) => {
       <div className={styles.panel}>
         <div className={styles.cancel}>
           <Button
+            text={props.cancelText}
             name={props.cancelText}
             variant={BtnVariants.Border}
             type='button'
@@ -52,6 +53,7 @@ export const ModalConfirmation = (props: IModalConfirmation) => {
         </div>
         <div className={styles.confirm}>
           <Button
+            text={props.confirmText}
             name={props.confirmText}
             variant={BtnVariants.Primary}
             type='button'

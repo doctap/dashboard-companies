@@ -1,3 +1,5 @@
+import type { MouseEvent } from 'react';
+
 export enum BtnVariants {
   Primary = 1,
   Primary_model1 = 2,
@@ -8,10 +10,11 @@ export enum BtnVariants {
   Submit = 7,
 }
 
-export interface IButtonProps {
-  name: string
+export interface IButtonProps<TName extends string> {
+  text: string
+  name: TName
   type: 'button' | 'reset' | 'submit'
   variant: BtnVariants
   disabled?: boolean
-  onClick?: () => void
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void
 }
