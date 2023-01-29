@@ -1,25 +1,16 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import type { ICompany } from '../../../api';
-import { useAppDispatch } from '../../../redux/hooks/redux';
-import { modalWindowSlice } from '../../../redux/reducers/ModalWindowSlice';
 import { EditDeleteButtons } from '../../elements';
 import { ImageCard } from '../imageCard/ImageCard';
 import styles from './CompanyCard.module.scss';
 
 interface ICompanyCard {
   typeNumber: string
+  onEditCompany: (id: number) => void
+  onDeleteCompany: (id: number) => void
 }
 
 export const CompanyCard = (props: ICompany & ICompanyCard) => {
-  const { manageWindow } = modalWindowSlice.actions;
-  const dispatch = useAppDispatch();
-
-  const editCompany = useCallback(
-    () => dispatch(manageWindow({ isShow: true, idCompany: props.id, indexModal: 1 })), []);
-
-  const deleteCompany = useCallback(
-    () => dispatch(manageWindow({ isShow: true, idCompany: props.id, indexModal: 0 })), []);
-
   return (
     <div className={styles.companyCard}>
 
@@ -40,8 +31,8 @@ export const CompanyCard = (props: ICompany & ICompanyCard) => {
           color2='#D20000'
           model1='edit_square'
           model2='delete'
-          onClick1={editCompany}
-          onClick2={deleteCompany}
+          onClick1={() => { props.onEditCompany(props.id); }}
+          onClick2={() => { props.onDeleteCompany(props.id); }}
         />
       </div>
 

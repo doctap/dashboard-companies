@@ -1,7 +1,4 @@
 import React from 'react';
-import { fetchCompanies } from '../../../api/http-client/http-client';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks/redux';
-import { modalWindowSlice } from '../../../redux/reducers/ModalWindowSlice';
 import { Button, IconButton } from '../../elements';
 import { BtnVariants } from '../../elements/buttons/btns/ButtonInterface';
 import styles from './ModalConfirmation.module.scss';
@@ -13,18 +10,15 @@ interface IModalConfirmation {
   cancelText: string
   onConsent: (id: number) => void
   idSubject: number
+  onClose: () => void
 }
 
 export const ModalConfirmation = (props: IModalConfirmation) => {
-  const { manageWindow } = modalWindowSlice.actions;
-  const dispatch = useAppDispatch();
-  
-  const closeWindow = () => dispatch(manageWindow({ isShow: false, idCompany: 0, indexModal: 0 }));
+  const closeWindow = () => { props.onClose(); };
 
   const onClick = () => {
-    props.onConsent(props.idSubject);
     closeWindow();
-    dispatch(fetchCompanies());
+    props.onConsent(props.idSubject);
   };
 
   return (

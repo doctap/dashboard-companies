@@ -26,7 +26,7 @@ export const fetchCompanies = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const deleteCompany = (idCompany: number) => {
+export const deleteCompanyRequest = (idCompany: number) => {
   try {
     console.log(DELETE_COMPANY_SERVER(idCompany));
   } catch (e: any) {

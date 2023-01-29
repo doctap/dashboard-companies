@@ -20,6 +20,9 @@ export const modalWindowSlice = createSlice({
       state.isShow = action.payload.isShow;
       state.idCompany = action.payload.idCompany;
       state.indexModal = action.payload.indexModal;
+    },
+    showHideWindow (state, action: PayloadAction<boolean>) {
+      state.isShow = action.payload;
     }
   }
 });
