@@ -1,0 +1,24 @@
+.radioButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .type {
+    width: 9.917rem;
+    height: 2.875rem;
+    font-size: 1rem;
+    background: #F2F2F2;
+    color: #262626;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    &_selected {
+      color: #fff;
+      background: #005DA1;
+    }
+  }
+}

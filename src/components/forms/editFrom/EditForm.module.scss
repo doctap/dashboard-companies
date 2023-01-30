@@ -9,10 +9,26 @@
   margin-bottom: 1.5rem;
 }
 
+.RadioCheckBox {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+
+  &>* {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+}
+
 .bottom {
   width: 100%;
   display: flex;
   justify-content: center;
+
+  &_position {
+    justify-content: start;
+  }
 
   .submitButton {
     width: 10.625rem;

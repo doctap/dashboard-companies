@@ -5,6 +5,7 @@ import styles from './InputState.module.scss';
 interface IInputState {
   typeBusiness: BusinessType
   getValue: (e: ChangeEvent<HTMLInputElement>) => void
+  value: string
 }
 
 export const InputState = (props: IInputState) => {
@@ -14,6 +15,7 @@ export const InputState = (props: IInputState) => {
         {props.typeBusiness}
       </div>
       <input
+        value={props.value}
         className={styles.inputState}
         type='text'
         onChange={props.getValue}

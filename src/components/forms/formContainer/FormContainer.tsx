@@ -3,7 +3,7 @@ import styles from './FormContainer.module.scss';
 
 interface IFormContainer {
   children: React.ReactNode
-  onSubmit: () => void
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 }
 
 export const FormContainer = (props: IFormContainer) => {

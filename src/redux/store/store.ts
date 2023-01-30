@@ -1,10 +1,12 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import companySlice from '../reducers/CompanySlice';
 import modalConfirmSlice from '../reducers/ModalWindowSlice';
+import companyDataSlice from '../reducers/CompanyDataSlice';
 
 const rootReducer = combineReducers({
   companySlice,
-  modalConfirmSlice
+  modalConfirmSlice,
+  companyDataSlice
 });
 
 export const setupStore = () => {

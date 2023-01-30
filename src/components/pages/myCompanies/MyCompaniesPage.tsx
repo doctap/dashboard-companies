@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { deleteCompanyRequest, fetchCompanies } from '../../../api';
+import { deleteCompanyRequest, fetchCompanies, fetchCompanyDataById } from '../../../api';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks/redux';
 import { modalWindowSlice } from '../../../redux/reducers/ModalWindowSlice';
 import type { BusinessType } from '../../../types';
@@ -14,6 +14,7 @@ const business: BusinessType[] = ['ТОО', 'ИП', 'Прочие'];
 export const MyCompaniesPage = () => {
   const { items, error, isLoading } = useAppSelector(st => st.companySlice);
   const { isShow, indexModal, idCompany } = useAppSelector(st => st.modalConfirmSlice);
+  const { companyData, isLoadingData, queryError } = useAppSelector(st => st.companyDataSlice);
   const { manageWindow, showHideWindow } = modalWindowSlice.actions;
   const dispatch = useAppDispatch();
 
@@ -30,19 +31,22 @@ export const MyCompaniesPage = () => {
       key={1}
     />,
     <EditForm
-      idSubject={idCompany}
+      companyData={{ companyData, isLoadingData, queryError }}
+      onSubmit={() => 0}
+      idCompany={idCompany}
       business={business}
       key={2}
     />
   ];
 
   const editCompany = useCallback(
-    function deleteCompany (id: number) {
+    function (id: number) {
+      dispatch(fetchCompanyDataById(id));
       dispatch(manageWindow({ isShow: true, idCompany: id, indexModal: 1 }));
     }, []);
 
   const deleteCompany = useCallback(
-    function deleteCompany (id: number) {
+    function (id: number) {
       dispatch(manageWindow({ isShow: true, idCompany: id, indexModal: 0 }));
     }, []);
 

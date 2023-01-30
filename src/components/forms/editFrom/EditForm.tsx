@@ -1,54 +1,140 @@
-import React from 'react';
-import type { BusinessType, SelectOption } from '../../../types';
-import { InputContainer } from '../../containers/inputContainer/InputContainer';
-import { Button, InputState, InputText, Label, RadioButton, Select } from '../../elements';
-import { BtnVariants } from '../../elements/buttons/btns/ButtonInterface';
+import React, { useState } from 'react';
+import type { AccountType, ICompanyData, IData } from '../../../api';
+import type { BusinessType } from '../../../types';
+import { InputContainer } from '../../containers';
+import {
+  BtnVariants,
+  Button,
+  InputState,
+  InputText,
+  Label,
+  Indicator,
+  RadioCheckBox,
+  Select
+} from '../../elements';
 import { FormContainer } from '../index';
 import styles from './EditForm.module.scss';
+import { collection, optionsOwnShips, optionsTax, radioItems } from './items';
 
 interface IEditForm {
-  idSubject: number
+  idCompany: number
   business: BusinessType[]
+  onSubmit: () => void
+  companyData: IData<ICompanyData>
 }
 
 export const EditForm = (props: IEditForm) => {
-  const options: SelectOption[] = [
-    { value: 'упрощенная-система-налогообложения', label: 'Упрощенная система налогообложения' },
-    { value: 'допустим-пункт-1', label: 'допустим пункт 1' },
-    { value: 'допустим-пункт-2', label: 'допустим пункт 2' },
-    { value: 'допустим-пункт-3', label: 'допустим пункт 3' },
-    { value: 'допустим-пункт-4', label: 'допустим пункт 4' }
-  ];
+  const getBusinessType = (str: AccountType) => {
+    return collection.get(str) as BusinessType;
+  };
 
-  const set = new Set(props.business);
+  let ownShip = '';
+  let tax = '';
 
+  const companyData = props.companyData.companyData;
+  const isOrganization = getBusinessType(companyData.accountType) === 'Прочие';
+  const [newOrganization, setNewOrganization] = useState(false);
+
+  const [privatePractice, setPrivatePractice] = useState(true);
+  const [companyTin, setCompanyTin] = useState(companyData.companyTin);
+  const [companyName, setCompanyName] = useState(companyData.companyName);
+
+  const onChangeTin = (e: React.ChangeEvent<HTMLInputElement>) => { setCompanyTin(e.currentTarget.value); };
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => { setCompanyName(e.currentTarget.value); };
+
+  const onSelectOwnShip = (v: string) => { ownShip = v; };
+  const onSelectTax = (v: string) => { tax = v; };
+
+  const switchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    if (value === 'частная-практика') {
+      setNewOrganization(false);
+      setPrivatePractice(false);
+    } else if (value === 'юридические-лица') {
+      setNewOrganization(false);
+      setPrivatePractice(true);
+    } else if (value === 'физические-лица') {
+      setNewOrganization(true);
+    }
+  };
+
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  
+  if (props.companyData.isLoadingData) return <h1>Loading...</h1>;
+  console.log(ownShip, tax);
   return (
-    <FormContainer onSubmit={() => 0}>
+    <FormContainer onSubmit={submitForm}>
 
       <div className={styles.title}>
-        Редактировать данные организации
+        {newOrganization ? 'Новая организация' : 'Редактировать данные организации'}
       </div>
 
       <div className={styles.RadioButton}>
-        <RadioButton businessTypes={[...set]} onSelect={(v) => 0} />
+        <Indicator
+          defaultValue={getBusinessType(companyData.accountType)}
+          businessTypes={props.business}
+        />
       </div>
 
-      <InputContainer marginBottom='.8rem'>
-        <Label text='Выберите систему налогообложения' />
-        <Select options={options} onSelectOption={(v) => { console.log(v); }} />
-      </InputContainer>
+      {
+        isOrganization
+          ? <div className={styles.RadioCheckBox}>
+            <RadioCheckBox
+              checked='юридические-лица'
+              onChange={e => { switchInput(e); }}
+              radio={radioItems}
+            />
+          </div>
+          : null
+      }
+
+      {
+        newOrganization
+          ? null
+          : <>
+            {
+              !isOrganization
+                ? null
+                : <InputContainer marginBottom='.8rem'>
+                  <Label text='Выберите форму собственности' />
+                  <Select
+                    options={optionsOwnShips}
+                    onSelectOption={onSelectOwnShip}
+                  />
+                </InputContainer>
+            }
+            {
+              privatePractice
+                ? <InputContainer marginBottom='.8rem'>
+                  <Label text='Выберите систему налогообложения' />
+                  <Select
+                    options={optionsTax}
+                    onSelectOption={onSelectTax}
+                  />
+                </InputContainer>
+                : null
+            }
+          </>
+      }
 
       <InputContainer marginBottom='.8rem'>
         <Label text='Введите ИИН/БИН' />
-        <InputText getValue={(e) => { console.log(e.currentTarget.value); }} />
+        <InputText value={companyTin} getValue={onChangeTin} />
       </InputContainer>
 
       <InputContainer marginBottom='1.7rem'>
         <Label text='Введите название компании' />
-        <InputState typeBusiness='ИП' getValue={(e) => 0} />
+        <InputState
+          typeBusiness={getBusinessType(companyData.accountType)}
+          value={companyName}
+          getValue={onChangeName}
+        />
       </InputContainer>
 
-      <div className={styles.bottom}>
+      <div className={newOrganization ? `${styles.bottom} ${styles.bottom_position}` : `${styles.bottom}`}>
         <div className={styles.submitButton}>
           <Button
             name='save'

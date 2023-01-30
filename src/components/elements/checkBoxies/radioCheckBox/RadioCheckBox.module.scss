@@ -1,0 +1,19 @@
+.radioCheckBox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  display: inline-block;
+  border: 1px solid #005DA1;
+  border-radius: 10px;
+  width: 17px;
+  height: 17px;
+  outline: none;
+  padding: 1.5px;
+  margin-right: 0.563rem;
+}
+
+.radioCheckBox:checked {
+  background: #005DA1;
+  background-clip: content-box;
+}
