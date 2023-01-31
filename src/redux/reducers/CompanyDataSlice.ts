@@ -7,7 +7,9 @@ const initialState: IData<ICompanyData> = {
     codeOwnShips: 'adv',
     companyName: '',
     companyTin: '',
-    taxCode: 'chp'
+    taxCode: 'chp',
+    taxTypes: [],
+    ownershipTypes: []
   },
   queryError: '',
   isLoadingData: false

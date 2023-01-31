@@ -1,4 +1,4 @@
-import type { AccountType, ICompanyResponse } from '../api';
+import type { AccountType, IBodyCHP, IBodyFIZ, IBodyTooIP, ICompanyResponse } from '../api';
 import type { CodeOwnShips, TaxCode } from '../types';
 import { companies } from './companies';
 import { formToSystem } from './form-to-system';
@@ -37,6 +37,23 @@ export const DELETE_COMPANY_SERVER = (id: number) => {
   console.log(companies);
 };
 
+const GET_TAX_TYPES = (legalEntity: AccountType | null): ITax[] | null => {
+  if (legalEntity === null) return null;
+
+  const owns = ownerships.filter(v => v.account_type === legalEntity);
+  const formSystem = formToSystem.filter(v => owns.some(q => q.id === v.form_ownership_id));
+
+  const taxies = taxSystems.filter(v => formSystem.some(q => q.tax_system_id === v.id));
+  return taxies.map(v => ({ code: v.code, full: v.full }));
+};
+
+const GET_OWNERSHIPS = (legalEntity: AccountType | null): IOwnership[] | null => {
+  if (legalEntity === null) return null;
+  const owns = ownerships.filter(v => v.account_type === legalEntity);
+
+  return owns.map(v => ({ code: v.code, full: v.full }));
+};
+
 export const GET_COMPANY_DATA_BY_ID_SERVER = (idCompany: number): IFormResponseServer => {
   const findingCompany = companies.find(v => v.company_id === idCompany);
   if (findingCompany === undefined) throw new Error('404 not Found');
@@ -50,13 +67,45 @@ export const GET_COMPANY_DATA_BY_ID_SERVER = (idCompany: number): IFormResponseS
   const findingTaxSystem = taxSystems.find(v => v.id === findingFormToSystem.tax_system_id);
   if (findingTaxSystem === undefined) throw new Error('404 not Found');
 
+  const taxTypes = GET_TAX_TYPES(findingOwnShip.account_type);
+  const ownershipTypes = GET_OWNERSHIPS(findingOwnShip.account_type);
+
   return {
     accountType: findingOwnShip.account_type,
     companyName: findingCompany.company_name,
     companyTin: findingCompany.company_tin,
     codeOwnShips: findingOwnShip.code,
-    taxCode: findingTaxSystem.code
+    taxCode: findingTaxSystem.code,
+    taxTypes,
+    ownershipTypes
   };
+};
+
+export const POST_REQUEST_TOO_IP = (body: IBodyTooIP) => {
+  const findingCompany = companies.find(v => v.company_id === body.companyId) as ICompanyServe;
+  const findingForm = formToSystem.find(v => v.form_ownership_id === body.companyId) as IFormToSystemServe;
+
+  const findingTax = taxSystems.find(v => v.code === body.tax) as ITaxSystemsServe;
+  findingCompany.tax_id = findingTax.id;
+  findingForm.tax_system_id = findingTax.id;
+};
+
+export const POST_REQUEST_CHP = (body: IBodyCHP) => {
+  const findingCompany = companies.find(v => v.company_id === body.companyId) as ICompanyServe;
+  const findingOwnShip = ownerships.find(v => v.code === body.ownership) as IOwnershipsServe;
+  const findingForm = formToSystem.find(v => v.form_ownership_id === findingCompany.form_id) as IFormToSystemServe;
+
+  findingForm.form_ownership_id = findingOwnShip.id;
+  findingCompany.form_id = findingOwnShip.id;
+
+  findingCompany.company_name = body.companyName;
+  findingCompany.company_tin = body.companyTin;
+};
+
+export const POST_REQUEST_FIZ = (body: IBodyFIZ) => {
+  const findingCompany = companies.find(v => v.company_id === body.companyId) as ICompanyServe;
+  findingCompany.company_name = body.companyName;
+  findingCompany.company_tin = body.companyTin;
 };
 
 export interface IFormResponseServer {
@@ -65,6 +114,18 @@ export interface IFormResponseServer {
   companyTin: string
   companyName: string
   codeOwnShips: CodeOwnShips
+  taxTypes: ITax[] | null
+  ownershipTypes: IOwnership[] | null
+}
+
+export interface ITax {
+  code: TaxCode
+  full: string
+}
+
+export interface IOwnership {
+  code: CodeOwnShips
+  full: string
 }
 
 export interface ICompanyServe {

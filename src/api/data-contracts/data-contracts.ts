@@ -1,3 +1,4 @@
+import type { IOwnership, ITax } from '../../mybuh';
 import type { CodeOwnShips, TaxCode } from '../../types';
 
 export type AccountType = 'too' | 'ip' | 'chp' | 'fiz';
@@ -36,4 +37,32 @@ export interface ICompanyData {
   companyTin: string
   companyName: string
   codeOwnShips: CodeOwnShips
+  taxTypes: ITax[]
+  ownershipTypes: IOwnership[]
+}
+
+export interface IBodyTooIP {
+  companyId: number
+  tax: string
+}
+
+export interface IBodyCHP {
+  companyId: number
+  companyTin: string
+  companyName: string
+  ownership: string
+}
+
+export interface IBodyFIZ {
+  companyId: number
+  companyTin: string
+  companyName: string
+}
+
+export interface IBodyUL {
+  companyId: number
+  companyTin: string
+  companyName: string
+  tax: string
+  ownership: string
 }

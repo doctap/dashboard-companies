@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './RadioCheckBox.module.scss';
 
 interface IRadioCheckBox {
-  checked: string
-  radio: IRadio[]
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  checked: Variants
+  radio: [IRadio, IRadio, IRadio]
 }
 
 export interface IRadio {
   label: string
-  value: string
+  value: Variants
 }
+
+export type Variants = '1' | '2' | '3';
 
 export const RadioCheckBox = (props: IRadioCheckBox) => {
   return (
@@ -19,9 +20,9 @@ export const RadioCheckBox = (props: IRadioCheckBox) => {
         props.radio.map(v => (
           <div key={v.value}>
             <input
-              defaultChecked={v.value === props.checked}
-              onChange={props.onChange}
+              checked={v.value === props.checked}
               className={styles.radioCheckBox}
+              onChange={() => 0}
               name="color"
               type="radio"
               id={v.value}

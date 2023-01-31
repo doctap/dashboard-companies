@@ -134,7 +134,7 @@ export const ownerships: IOwnershipsServe[] = [
     short: 'ЧП',
     is_jur: false,
     parent_id: null,
-    account_type: null
+    account_type: 'chp'
   },
   {
     id: 16,

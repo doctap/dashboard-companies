@@ -1,10 +1,13 @@
-import { DELETE_COMPANY_SERVER, GET_COMPANIES_SERVER, GET_COMPANY_DATA_BY_ID_SERVER } from '../../mybuh';
-import type { IFormResponseServer } from '../../mybuh';
+import { DELETE_COMPANY_SERVER, GET_COMPANIES_SERVER, GET_COMPANY_DATA_BY_ID_SERVER, type IOwnershipsServe, POST_REQUEST_CHP, POST_REQUEST_FIZ, POST_REQUEST_TOO_IP, type IFormResponseServer, type ICompanyServe } from '../../mybuh';
+
 import { companySlice } from '../../redux/reducers/CompanySlice';
 import type { AppDispatch } from '../../redux/store/store';
 import { base64 as building } from '../../images/building/base64';
-import type { AccountType, ICompany, ICompanyResponse, ICompanyData } from '../data-contracts/data-contracts';
+import type { AccountType, ICompany, ICompanyResponse, ICompanyData, IBodyTooIP, IBodyCHP, IBodyFIZ, IBodyUL } from '../data-contracts/data-contracts';
 import { companyDataSlice } from '../../redux/reducers/CompanyDataSlice';
+import { ownerships } from '../../mybuh/ownerships';
+import { companies } from '../../mybuh/companies';
+import type { CodeOwnShips } from '../../types';
 
 export const validatorCompany = (comp: ICompanyResponse[]) => {
   const companyRes = comp.filter(v => v.account_type !== null);
@@ -21,14 +24,16 @@ export const validatorCompany = (comp: ICompanyResponse[]) => {
 };
 
 const validatorCompanyData = (data: IFormResponseServer): ICompanyData => {
-  if (data.accountType === null) throw new Error('Not Found');
-
+  if (data.accountType === null || data.taxTypes === null || data.ownershipTypes === null) throw new Error('Not Found');
+ 
   return {
     accountType: data.accountType,
     codeOwnShips: data.codeOwnShips,
     companyName: data.companyName,
     companyTin: data.companyTin,
-    taxCode: data.taxCode
+    taxCode: data.taxCode,
+    taxTypes: data.taxTypes,
+    ownershipTypes: data.ownershipTypes
   };
 };
 
@@ -60,4 +65,52 @@ export const fetchCompanyDataById = (id: number) => async (dispatch: AppDispatch
   } catch (e: any) {
     dispatch(companyDataSlice.actions.companyDataFetchingError(e.message));
   }
+};
+
+export const sendFormTooIP = (body: IBodyTooIP) => {
+  try {
+    POST_REQUEST_TOO_IP(body);
+  } catch (e: any) {
+    // сообщить клиенту ошибку
+  }
+};
+
+export const sendFormLegalEntity = (body: IBodyUL) => {
+  try {
+    console.log('sendFormLegalEntity');
+  } catch (e: any) {
+    // сообщить клиенту ошибку
+  }
+};
+
+export const sendFormPrivatePractice = (body: IBodyCHP) => {
+  try {
+    POST_REQUEST_CHP(body);
+  } catch (e: any) {
+    // сообщить клиенту ошибку
+  }
+};
+
+export const sendFormNewOrganization = (body: IBodyFIZ) => {
+  try {
+    POST_REQUEST_FIZ(body);
+  } catch (e: any) {
+
+    // сообщить клиенту ошибку
+  }
+};
+
+export const getLogList = (myCompanies: ICompany[]): Array<{ companyName: string, companyTin: string, ownerShipCode: CodeOwnShips }> => {
+  const getOwnershipCode = (companyId: number) => {
+    const findingCompany = companies.find(v => v.company_id === companyId) as ICompanyServe;
+    const findingOwnShip = ownerships.find(v => v.id === findingCompany.form_id) as IOwnershipsServe;
+
+    return findingOwnShip.code;
+  };
+
+  return myCompanies.map(v => ({
+    companyName: v.company_name,
+    companyTin: v.company_tin,
+    ownerShipCode: getOwnershipCode(v.id)
+  }));
 };

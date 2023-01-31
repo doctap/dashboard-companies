@@ -1,29 +1,30 @@
 import React, { type MouseEvent, useState } from 'react';
-import type { SelectOption } from '../../../../types';
 import { IconButton } from '../../buttons/iconButton/IconButton';
 import styles from './Select.module.scss';
 
-interface ISelect {
-  options: SelectOption[]
-  onSelectOption: (v: string) => void
+interface ISelect<TCode> {
+  options: Array<{
+    full: string
+    code: TCode
+  }>
+  onSelectOption: (v: TCode) => void
 }
 
-export const Select = (props: ISelect) => {
+export function Select <TCode> (props: ISelect<TCode>) {
   const [toggleList, setToggleList] = useState(false);
-  const [selectedLabel, setSelectedLabel] = useState(props.options[0].label);
+  const [selectedLabel, setSelectedLabel] = useState(props.options[0].full);
 
   function switchList () {
     setToggleList(!toggleList);
   }
 
-  const getValue = (e: MouseEvent<HTMLButtonElement>, label: string) => {
+  const getValue = (e: MouseEvent<HTMLButtonElement>, code: TCode) => {
     e.preventDefault();
     e.stopPropagation();
 
-    const el = e.currentTarget;
-    setSelectedLabel(label);
+    setSelectedLabel(e.currentTarget.value);
     
-    props.onSelectOption(el.value);
+    props.onSelectOption(code);
     setToggleList(false);
   };
 
@@ -45,14 +46,14 @@ export const Select = (props: ISelect) => {
             <button
               className={styles.option}
               key={i}
-              value={v.value}
-              onClick={e => { getValue(e, v.label); }}
+              value={v.full}
+              onClick={e => { getValue(e, v.code); }}
             >
-              {v.label}
+              {v.full}
             </button>
           ))
         }
       </div>
     </div>
   );
-};
+}

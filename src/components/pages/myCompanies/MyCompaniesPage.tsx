@@ -1,5 +1,18 @@
 import React, { useCallback, useEffect } from 'react';
-import { deleteCompanyRequest, fetchCompanies, fetchCompanyDataById } from '../../../api';
+import {
+  deleteCompanyRequest,
+  fetchCompanies,
+  fetchCompanyDataById,
+  sendFormTooIP,
+  sendFormLegalEntity,
+  sendFormPrivatePractice,
+  sendFormNewOrganization,
+  type IBodyUL,
+  type IBodyCHP,
+  type IBodyFIZ,
+  type IBodyTooIP,
+  getLogList
+} from '../../../api';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks/redux';
 import { modalWindowSlice } from '../../../redux/reducers/ModalWindowSlice';
 import type { BusinessType } from '../../../types';
@@ -18,6 +31,30 @@ export const MyCompaniesPage = () => {
   const { manageWindow, showHideWindow } = modalWindowSlice.actions;
   const dispatch = useAppDispatch();
 
+  const submitTooIP = (body: IBodyTooIP) => {
+    sendFormTooIP(body);
+    dispatch(showHideWindow(false));
+    console.log(getLogList(items));
+  };
+
+  const submitFormLegalEntity = (body: IBodyUL) => {
+    sendFormLegalEntity(body);
+    dispatch(showHideWindow(false));
+    console.log(getLogList(items));
+  };
+
+  const submitFormPrivatePractice = (body: IBodyCHP) => {
+    sendFormPrivatePractice(body);
+    dispatch(showHideWindow(false));
+    console.log(getLogList(items));
+  };
+
+  const submitFormNewOrganization = (body: IBodyFIZ) => {
+    sendFormNewOrganization(body);
+    dispatch(showHideWindow(false));
+    console.log(getLogList(items));
+  };
+
   // порядок элементов менять нельзя
   const modals: JSX.Element[] = [
     <ModalConfirmation
@@ -31,8 +68,11 @@ export const MyCompaniesPage = () => {
       key={1}
     />,
     <EditForm
+      onSubmitFormNewOrganization={submitFormNewOrganization}
+      onSubmitFormPrivatePractice={submitFormPrivatePractice}
+      onSubmitFormLegalEntity={submitFormLegalEntity}
       companyData={{ companyData, isLoadingData, queryError }}
-      onSubmit={() => 0}
+      onSubmitTooIP={submitTooIP}
       idCompany={idCompany}
       business={business}
       key={2}

@@ -13,7 +13,15 @@
   margin-right: 0.563rem;
 }
 
+.radioCheckBox+label {
+  color: #808080;
+}
+
 .radioCheckBox:checked {
   background: #005DA1;
   background-clip: content-box;
+}
+
+.radioCheckBox:checked~label {
+  color: #005DA1;
 }
