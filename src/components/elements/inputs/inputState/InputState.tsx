@@ -1,27 +1,19 @@
 import React, { type ChangeEvent } from 'react';
-import { type AccountType } from '../../../../api';
+import type { ShortName } from '../../../../types';
 import styles from './InputState.module.scss';
 
 interface IInputState {
-  state: AccountType
+  state: ShortName
   getValue: (e: ChangeEvent<HTMLInputElement>) => void
   value: string
   disabled: boolean
 }
 
-const abbr = {
-  too: 'ТОО',
-  ip: 'ИП',
-  chp: 'ЮЛ',
-  fiz: 'ФЛ',
-  ul: 'ЮЛ'
-};
-
 export const InputState = (props: IInputState) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.state}>
-        {abbr[props.state]}
+        {props.state}
       </div>
       <input
         disabled={props.disabled}

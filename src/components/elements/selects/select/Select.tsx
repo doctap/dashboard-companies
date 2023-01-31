@@ -13,7 +13,7 @@ interface ISelect<TCode> {
 export function Select <TCode> (props: ISelect<TCode>) {
   const [toggleList, setToggleList] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(props.options[0].full);
-
+  
   function switchList () {
     setToggleList(!toggleList);
   }

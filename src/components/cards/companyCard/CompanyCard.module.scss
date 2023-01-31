@@ -28,8 +28,25 @@
       text-align: start;
       font-size: 0.875rem;
 
-      div:first-child {
+      .companyName {
         margin-bottom: 0.75rem;
+
+        .shortName {
+          margin-right: .3rem;
+          text-transform: uppercase;
+        }
+      }
+
+      .companyNumber {
+        .typeNumber {
+          margin-right: .7rem;
+          text-transform: uppercase;
+        }
+      }
+
+      &>* {
+        display: flex;
+        flex-direction: row;
       }
     }
   }
@@ -42,7 +59,7 @@
     height: fit-content;
     width: 4.188rem;
 
-    &>*{
+    &>* {
       width: 1em;
       height: 1em;
     }

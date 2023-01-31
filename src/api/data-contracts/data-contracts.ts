@@ -1,5 +1,5 @@
 import type { IOwnership, ITax } from '../../mybuh';
-import type { CodeOwnShips, TaxCode } from '../../types';
+import type { CodeOwnShips, ShortName } from '../../types';
 
 export type AccountType = 'too' | 'ip' | 'chp' | 'fiz';
 
@@ -8,7 +8,7 @@ export interface ICompany {
   logo: string
   company_name: string
   company_tin: string
-  account_type: AccountType
+  shortName: ShortName
 }
 
 export interface IItems<T> {
@@ -28,12 +28,12 @@ export interface ICompanyResponse {
   company_name: string
   company_tin: string
   logo: null | string
-  account_type: AccountType | null
+  shortName: ShortName
 }
 
 export interface ICompanyData {
   accountType: AccountType
-  taxCode: TaxCode
+  short: ShortName
   companyTin: string
   companyName: string
   codeOwnShips: CodeOwnShips

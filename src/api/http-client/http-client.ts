@@ -3,19 +3,19 @@ import { DELETE_COMPANY_SERVER, GET_COMPANIES_SERVER, GET_COMPANY_DATA_BY_ID_SER
 import { companySlice } from '../../redux/reducers/CompanySlice';
 import type { AppDispatch } from '../../redux/store/store';
 import { base64 as building } from '../../images/building/base64';
-import type { AccountType, ICompany, ICompanyResponse, ICompanyData, IBodyTooIP, IBodyCHP, IBodyFIZ, IBodyUL } from '../data-contracts/data-contracts';
+import type { ICompany, ICompanyResponse, ICompanyData, IBodyTooIP, IBodyCHP, IBodyFIZ, IBodyUL } from '../data-contracts/data-contracts';
 import { companyDataSlice } from '../../redux/reducers/CompanyDataSlice';
 import { ownerships } from '../../mybuh/ownerships';
 import { companies } from '../../mybuh/companies';
 import type { CodeOwnShips } from '../../types';
 
 export const validatorCompany = (comp: ICompanyResponse[]) => {
-  const companyRes = comp.filter(v => v.account_type !== null);
+  const companyRes = comp.filter(v => v.shortName !== null);
   const result = companyRes.map<ICompany>(v => {
     return {
       id: v.id,
       logo: v.logo ?? `data:image/png;base64, ${building}`,
-      account_type: v.account_type as AccountType,
+      shortName: v.shortName,
       company_name: v.company_name,
       company_tin: v.company_tin
     };
@@ -31,8 +31,8 @@ const validatorCompanyData = (data: IFormResponseServer): ICompanyData => {
     codeOwnShips: data.codeOwnShips,
     companyName: data.companyName,
     companyTin: data.companyTin,
-    taxCode: data.taxCode,
     taxTypes: data.taxTypes,
+    short: data.shortName,
     ownershipTypes: data.ownershipTypes
   };
 };

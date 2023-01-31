@@ -20,8 +20,14 @@ export const CompanyCard = (props: ICompany & ICompanyCard) => {
         </div>
 
         <div className={styles.text}>
-          <div>{`${props.account_type.toUpperCase()} ${props.company_name}`}</div>
-          <div>{`${props.typeNumber.toUpperCase()} ${props.company_tin}`}</div>
+          <div className={styles.companyName}>
+            <div className={styles.shortName}>{props.shortName}</div>
+            <div>{props.company_name}</div>
+          </div>
+          <div className={styles.companyNumber}>
+            <div className={styles.typeNumber}>{props.typeNumber}</div>
+            <div>{props.company_tin}</div>
+          </div>
         </div>
       </div>
 

@@ -69,78 +69,84 @@ export const EditForm = (props: IEditForm) => {
     }
   };
   
-  if (props.companyData.isLoadingData) return <h1>Loading...</h1>;
-
+  if (props.companyData.isLoadingData) return <h1 className={styles.Loading}>Loading...</h1>;
+  
   return (
-    <FormContainer onSubmit={(e) => { submitForm(e, t); }}>
+    <>
+      {
+        props.companyData.queryError !== ''
+          ? <h1 className={styles.Error}>{props.companyData.queryError}</h1>
+          : <FormContainer onSubmit={(e) => { submitForm(e, t); }}>
 
-      <div className={styles.title}>
-        { t === 'fiz' ? 'Новая организация' : 'Редактировать данные организации'}
-      </div>
+            <div className={styles.title}>
+              { t === 'fiz' ? 'Новая организация' : 'Редактировать данные организации'}
+            </div>
 
-      <div className={styles.RadioButton}>
-        <Indicator
-          defaultValue={getBusinessType(companyData.accountType)}
-          businessTypes={props.business}
-        />
-      </div>
+            <div className={styles.RadioButton}>
+              <Indicator
+                defaultValue={getBusinessType(companyData.accountType)}
+                businessTypes={props.business}
+              />
+            </div>
 
-      {(switchType() !== '1')
-        ? <div className={styles.RadioCheckBox}>
-          <RadioCheckBox
-            checked={switchType()}
-            radio={radioItems}
-          />
-        </div>
-        : null}
+            {(switchType() !== '1')
+              ? <div className={styles.RadioCheckBox}>
+                <RadioCheckBox
+                  checked={switchType()}
+                  radio={radioItems}
+                />
+              </div>
+              : null}
 
-      {(switchType() !== '1')
-        ? <InputContainer marginBottom='.8rem'>
-          <Label text='Выберите форму собственности' />
-          <Select
-            options={companyData.ownershipTypes}
-            onSelectOption={onSelectOwnShip}
-          />
-        </InputContainer>
-        : null}
-     
-      {(switchType() === '1')
-        ? <InputContainer marginBottom='.8rem'>
-          <Label text='Выберите систему налогообложения' />
-          <Select
-            options={companyData.taxTypes}
-            onSelectOption={onSelectTax}
-          />
-        </InputContainer>
-        : null}
-      
-      <InputContainer marginBottom='.8rem'>
-        <Label text='Введите ИИН/БИН' />
-        <InputText disabled={switchType() === '1'} value={companyTin} getValue={onChangeTin} />
-      </InputContainer>
+            {(switchType() !== '1')
+              ? <InputContainer marginBottom='.8rem'>
+                <Label text='Выберите форму собственности' />
+                <Select
+                  options={companyData.ownershipTypes}
+                  onSelectOption={onSelectOwnShip}
+                />
+              </InputContainer>
+              : null}
+   
+            {(switchType() === '1')
+              ? <InputContainer marginBottom='.8rem'>
+                <Label text='Выберите систему налогообложения' />
+                <Select
+                  options={companyData.taxTypes}
+                  onSelectOption={onSelectTax}
+                />
+              </InputContainer>
+              : null}
+    
+            <InputContainer marginBottom='.8rem'>
+              <Label text='Введите ИИН/БИН' />
+              <InputText disabled={switchType() === '1'} value={companyTin} getValue={onChangeTin} />
+            </InputContainer>
 
-      <InputContainer marginBottom='1.7rem'>
-        <Label text='Введите название компании' />
-        <InputState
-          disabled={switchType() === '1'}
-          state={companyData.accountType}
-          value={companyName}
-          getValue={onChangeName}
-        />
-      </InputContainer>
+            <InputContainer marginBottom='1.7rem'>
+              <Label text='Введите название компании' />
+              <InputState
+                disabled={switchType() === '1'}
+                state={companyData.short}
+                value={companyName}
+                getValue={onChangeName}
+              />
+            </InputContainer>
 
-      <div className={t === 'fiz' ? `${styles.bottom} ${styles.bottom_position}` : `${styles.bottom}`}>
-        <div className={styles.submitButton}>
-          <Button
-            name='save'
-            text='Сохранить'
-            onClick={() => 0}
-            type='submit'
-            variant={BtnVariants.Primary_model2}
-          />
-        </div>
-      </div>
+            <div className={t === 'fiz' ? `${styles.bottom} ${styles.bottom_position}` : `${styles.bottom}`}>
+              <div className={styles.submitButton}>
+                <Button
+                  name='save'
+                  text='Сохранить'
+                  onClick={() => 0}
+                  type='submit'
+                  variant={BtnVariants.Primary_model2}
+                />
+              </div>
+            </div>
 
-    </FormContainer>
+          </FormContainer>
+      }
+    </>
   );
 };

@@ -1,5 +1,5 @@
 import type { AccountType, IBodyCHP, IBodyFIZ, IBodyTooIP, ICompanyResponse } from '../api';
-import type { CodeOwnShips, TaxCode } from '../types';
+import type { CodeOwnShips, ShortName, TaxCode } from '../types';
 import { companies } from './companies';
 import { formToSystem } from './form-to-system';
 import { ownerships } from './ownerships';
@@ -9,23 +9,24 @@ import { taxSystems } from './tax-systems';
 export const GET_COMPANIES_SERVER = (): ICompanyResponse[] => {
   const result: ICompanyResponse[] = [];
   
-  const getAccountType = (formId: number) => {
-    const findingInSystem = formToSystem.find(v => v.form_ownership_id === formId);
-    if (findingInSystem === undefined) return null;
+  const getShortName = (formId: number) => {
+    const findingOwnShip = ownerships.find(v => v.id === formId) as IOwnershipsServe;
 
-    const findingOwnShip = ownerships.find(v => v.id === findingInSystem.form_ownership_id);
-    if (findingOwnShip === undefined) return null;
-
-    return findingOwnShip.account_type;
+    return findingOwnShip.short;
   };
 
-  companies.forEach(v => result.push({
-    id: v.company_id,
-    company_name: v.company_name,
-    company_tin: v.company_tin,
-    logo: v.logo,
-    account_type: getAccountType(v.form_id)
-  }));
+  companies.forEach(v => {
+    const isExist = formToSystem.some(s => s.tax_system_id === v.tax_id && s.form_ownership_id === v.form_id);
+    if (isExist) {
+      result.push({
+        id: v.company_id,
+        company_name: v.company_name,
+        company_tin: v.company_tin,
+        logo: v.logo,
+        shortName: getShortName(v.form_id)
+      });
+    }
+  });
 
   return result;
 };
@@ -58,27 +59,26 @@ export const GET_COMPANY_DATA_BY_ID_SERVER = (idCompany: number): IFormResponseS
   const findingCompany = companies.find(v => v.company_id === idCompany);
   if (findingCompany === undefined) throw new Error('404 not Found');
 
-  const findingOwnShip = ownerships.find(v => v.id === findingCompany.form_id);
-  if (findingOwnShip === undefined) throw new Error('404 not Found');
-
-  const findingFormToSystem = formToSystem.find(v => v.form_ownership_id === findingCompany.form_id);
+  const findingFormToSystem = formToSystem.find(v => v.form_ownership_id === findingCompany.form_id && v.tax_system_id === findingCompany.tax_id);
   if (findingFormToSystem === undefined) throw new Error('404 not Found');
 
-  const findingTaxSystem = taxSystems.find(v => v.id === findingFormToSystem.tax_system_id);
-  if (findingTaxSystem === undefined) throw new Error('404 not Found');
+  const findingOwnShip = ownerships.find(v => v.id === findingFormToSystem.form_ownership_id);
+  if (findingOwnShip === undefined) throw new Error('404 not Found');
 
   const taxTypes = GET_TAX_TYPES(findingOwnShip.account_type);
   const ownershipTypes = GET_OWNERSHIPS(findingOwnShip.account_type);
 
-  return {
+  const res = {
     accountType: findingOwnShip.account_type,
     companyName: findingCompany.company_name,
     companyTin: findingCompany.company_tin,
     codeOwnShips: findingOwnShip.code,
-    taxCode: findingTaxSystem.code,
+    shortName: findingOwnShip.short,
     taxTypes,
     ownershipTypes
   };
+  console.log(res);
+  return res;
 };
 
 export const POST_REQUEST_TOO_IP = (body: IBodyTooIP) => {
@@ -110,7 +110,7 @@ export const POST_REQUEST_FIZ = (body: IBodyFIZ) => {
 
 export interface IFormResponseServer {
   accountType: AccountType | null
-  taxCode: TaxCode
+  shortName: ShortName
   companyTin: string
   companyName: string
   codeOwnShips: CodeOwnShips
@@ -146,7 +146,7 @@ export interface IOwnershipsServe {
   id: number
   code: CodeOwnShips
   full: string
-  short: string
+  short: ShortName
   is_jur: boolean
   parent_id: number | null
   account_type: AccountType | null
