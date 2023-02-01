@@ -1,5 +1,5 @@
 export * from './buttons/iconButton/IconButton';
-export * from './editDeleteButtons/EditDeleteButtons';
+export * from './iconButtons/IconButtons';
 export * from './buttons/btns/Button';
 export * from './buttons/btns/ButtonInterface';
 export * from './indicator/Indicator';

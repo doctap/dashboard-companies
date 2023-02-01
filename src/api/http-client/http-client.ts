@@ -33,7 +33,8 @@ const validatorCompanyData = (data: IFormResponseServer): ICompanyData => {
     companyTin: data.companyTin,
     taxTypes: data.taxTypes,
     short: data.shortName,
-    ownershipTypes: data.ownershipTypes
+    ownershipTypes: data.ownershipTypes,
+    codeTax: data.codeTax
   };
 };
 
@@ -100,17 +101,22 @@ export const sendFormNewOrganization = (body: IBodyFIZ) => {
   }
 };
 
-export const getLogList = (myCompanies: ICompany[]): Array<{ companyName: string, companyTin: string, ownerShipCode: CodeOwnShips }> => {
+export const getLogList = (myCompanies: ICompany[]) => {
   const getOwnershipCode = (companyId: number) => {
     const findingCompany = companies.find(v => v.company_id === companyId) as ICompanyServe;
     const findingOwnShip = ownerships.find(v => v.id === findingCompany.form_id) as IOwnershipsServe;
 
-    return findingOwnShip.code;
+    return {
+      company: findingCompany,
+      ownership: findingOwnShip
+    };
   };
 
-  return myCompanies.map(v => ({
-    companyName: v.company_name,
-    companyTin: v.company_tin,
-    ownerShipCode: getOwnershipCode(v.id)
+  const res = myCompanies.map(v => ({
+    companyName: getOwnershipCode(v.id).company.company_name,
+    companyTin: getOwnershipCode(v.id).company.company_tin,
+    ownerShipCode: getOwnershipCode(v.id).ownership.code
   }));
+
+  console.log(res);
 };

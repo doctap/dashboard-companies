@@ -26,6 +26,7 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "react/display-name": ["off", { "ignoreTranspilerName": true }],
     "require-jsdoc": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/ban-types": "off",

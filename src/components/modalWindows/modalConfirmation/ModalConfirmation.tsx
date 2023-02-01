@@ -14,10 +14,8 @@ interface IModalConfirmation {
 }
 
 export const ModalConfirmation = (props: IModalConfirmation) => {
-  const closeWindow = () => { props.onClose(); };
-
-  const onClick = () => {
-    closeWindow();
+  const onConfirm = () => {
+    props.onClose();
     props.onConsent(props.idSubject);
   };
 
@@ -28,7 +26,7 @@ export const ModalConfirmation = (props: IModalConfirmation) => {
       </div>
 
       <div className={styles.IconButton}>
-        <IconButton color='#486377' model='close' onClick={closeWindow} />
+        <IconButton color='#486377' model='close' onClick={props.onClose} />
       </div>
 
       <div className={styles.message}>
@@ -42,7 +40,7 @@ export const ModalConfirmation = (props: IModalConfirmation) => {
             name={props.cancelText}
             variant={BtnVariants.Border}
             type='button'
-            onClick={closeWindow}
+            onClick={props.onClose}
           />
         </div>
         <div className={styles.confirm}>
@@ -51,7 +49,7 @@ export const ModalConfirmation = (props: IModalConfirmation) => {
             name={props.confirmText}
             variant={BtnVariants.Primary}
             type='button'
-            onClick={onClick}
+            onClick={onConfirm}
           />
         </div>
       </div>

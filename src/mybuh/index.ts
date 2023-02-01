@@ -35,7 +35,6 @@ export const DELETE_COMPANY_SERVER = (id: number) => {
   const result = companies.filter(v => v.company_id !== id);
   companies.length = 0;
   companies.push(...result);
-  console.log(companies);
 };
 
 const GET_TAX_TYPES = (legalEntity: AccountType | null): ITax[] | null => {
@@ -62,23 +61,25 @@ export const GET_COMPANY_DATA_BY_ID_SERVER = (idCompany: number): IFormResponseS
   const findingFormToSystem = formToSystem.find(v => v.form_ownership_id === findingCompany.form_id && v.tax_system_id === findingCompany.tax_id);
   if (findingFormToSystem === undefined) throw new Error('404 not Found');
 
+  const findingTax = taxSystems.find(v => v.id === findingFormToSystem.tax_system_id) as ITaxSystemsServe;
+  if (findingFormToSystem === undefined) throw new Error('404 not Found');
+
   const findingOwnShip = ownerships.find(v => v.id === findingFormToSystem.form_ownership_id);
   if (findingOwnShip === undefined) throw new Error('404 not Found');
 
   const taxTypes = GET_TAX_TYPES(findingOwnShip.account_type);
   const ownershipTypes = GET_OWNERSHIPS(findingOwnShip.account_type);
 
-  const res = {
+  return {
     accountType: findingOwnShip.account_type,
     companyName: findingCompany.company_name,
     companyTin: findingCompany.company_tin,
     codeOwnShips: findingOwnShip.code,
     shortName: findingOwnShip.short,
+    codeTax: findingTax.code,
     taxTypes,
     ownershipTypes
   };
-  console.log(res);
-  return res;
 };
 
 export const POST_REQUEST_TOO_IP = (body: IBodyTooIP) => {
@@ -114,6 +115,7 @@ export interface IFormResponseServer {
   companyTin: string
   companyName: string
   codeOwnShips: CodeOwnShips
+  codeTax: TaxCode
   taxTypes: ITax[] | null
   ownershipTypes: IOwnership[] | null
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import type { marginBottomType } from '../../../types';
-import styles from './InputContainer.module.scss';
+import styles from './MarginContainer.module.scss';
 
-interface IInputContainer {
+interface IMarginContainer {
   children: React.ReactNode
   marginBottom?: marginBottomType
 }
 
-export const InputContainer = (props: IInputContainer) => {
+export const MarginContainer = (props: IMarginContainer) => {
   return (
     <div style={{ marginBottom: props.marginBottom ?? '1rem' }} className={styles.inputContainer}>
       {props.children}

@@ -8,7 +8,7 @@ interface ICompanyCardList {
   onEditCompany: (id: number) => void
 }
 
-export const CompanyCardList = memo(function CompanyCardList (props: ICompanyCardList) {
+export const CompanyCardList = memo((props: ICompanyCardList) => {
   return (
     <>
       {props.cards.map(v => (

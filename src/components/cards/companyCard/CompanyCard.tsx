@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ICompany } from '../../../api';
-import { EditDeleteButtons } from '../../elements';
+import { IconButtons } from '../../elements';
 import { ImageCard } from '../imageCard/ImageCard';
 import styles from './CompanyCard.module.scss';
 
@@ -32,7 +32,7 @@ export const CompanyCard = (props: ICompany & ICompanyCard) => {
       </div>
 
       <div className={styles.EditDeleteButtons}>
-        <EditDeleteButtons
+        <IconButtons
           color1='#005DA1'
           color2='#D20000'
           model1='edit_square'

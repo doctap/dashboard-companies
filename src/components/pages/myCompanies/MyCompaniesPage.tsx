@@ -34,25 +34,25 @@ export const MyCompaniesPage = () => {
   const submitTooIP = (body: IBodyTooIP) => {
     sendFormTooIP(body);
     dispatch(showHideWindow(false));
-    console.log(getLogList(items));
+    getLogList(items);
   };
 
   const submitFormLegalEntity = (body: IBodyUL) => {
     sendFormLegalEntity(body);
     dispatch(showHideWindow(false));
-    console.log(getLogList(items));
+    getLogList(items);
   };
 
   const submitFormPrivatePractice = (body: IBodyCHP) => {
     sendFormPrivatePractice(body);
     dispatch(showHideWindow(false));
-    console.log(getLogList(items));
+    getLogList(items);
   };
 
   const submitFormNewOrganization = (body: IBodyFIZ) => {
     sendFormNewOrganization(body);
     dispatch(showHideWindow(false));
-    console.log(getLogList(items));
+    getLogList(items);
   };
 
   // порядок элементов менять нельзя

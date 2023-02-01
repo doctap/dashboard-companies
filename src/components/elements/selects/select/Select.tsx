@@ -3,6 +3,7 @@ import { IconButton } from '../../buttons/iconButton/IconButton';
 import styles from './Select.module.scss';
 
 interface ISelect<TCode> {
+  default: string
   options: Array<{
     full: string
     code: TCode
@@ -12,7 +13,7 @@ interface ISelect<TCode> {
 
 export function Select <TCode> (props: ISelect<TCode>) {
   const [toggleList, setToggleList] = useState(false);
-  const [selectedLabel, setSelectedLabel] = useState(props.options[0].full);
+  const [selectedLabel, setSelectedLabel] = useState(props.default);
   
   function switchList () {
     setToggleList(!toggleList);

@@ -3,9 +3,11 @@ import type { BusinessType } from '../../../types';
 import { type IRadio } from '../../elements';
 
 export const radioItems: [IRadio, IRadio, IRadio] = [
-  { label: 'Юридические лица', value: '1' },
-  { label: 'Частная практика', value: '2' },
-  { label: 'Физические лица', value: '3' }
+  // { label: 'Юридические лица', value: 'ip' <--- неверный тип аккаунта!! Сделано на будущее, когда появится
+  // обозначение для подтипа "Юридические лица" },
+  { label: 'Юридические лица', value: 'ip' },
+  { label: 'Частная практика', value: 'chp' },
+  { label: 'Физические лица', value: 'fiz' }
 ];
 
 export const collection = new Map <AccountType, BusinessType>([

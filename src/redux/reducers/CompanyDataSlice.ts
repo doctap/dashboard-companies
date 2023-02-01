@@ -3,6 +3,7 @@ import type { ICompanyData, IData } from '../../api';
 
 const initialState: IData<ICompanyData> = {
   companyData: {
+    codeTax: 'chp',
     short: 'Адвокат',
     accountType: 'too',
     codeOwnShips: 'adv',

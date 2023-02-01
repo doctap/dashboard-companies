@@ -5,29 +5,30 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  target: ['web', 'es3']
+  target: ["web", "es3"]
 }
 
 module.exports = (env, argv) => {
   console.log(`This is the Webpack 5 "mode": ${JSON.stringify(argv)}`);
   console.log(`This is the Webpack 5 "mode": ${JSON.stringify(env)}`);
+  console.log(__dirname)
   return {
     mode: argv.mode,
     entry: "./src/index.tsx",
     output: {
       filename: "main.js",
-      path: path.resolve(__dirname, './dist'),
+      path: path.resolve(__dirname, "./dist"),
       clean: true,
-      publicPath: './',
-      assetModuleFilename: 'src/assets/[name][ext]',
+      publicPath: "./",
+      assetModuleFilename: "src/assets/[name][ext]",
     },
     devtool: "inline-source-map",
     resolve: {
-      extensions: ['.tsx', '.ts', '.js'],
+      extensions: [".tsx", ".ts", ".js"],
     },
     devServer: {
       static: {
-        directory: path.join(__dirname, "dist"),
+        directory: path.join(__dirname, "/dist"),
       },
       compress: true,
       port: 3000,
@@ -39,7 +40,7 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.(js|ts)x?$/,
-          loader: 'ts-loader',
+          loader: "ts-loader",
         },
         {
           test: /\.(s[ac]ss|css)$/i,

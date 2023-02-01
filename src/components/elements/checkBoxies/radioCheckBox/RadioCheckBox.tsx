@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import type { AccountType } from '../../../../api';
 import styles from './RadioCheckBox.module.scss';
 
 interface IRadioCheckBox {
-  checked: Variants
+  checked: AccountType
   radio: [IRadio, IRadio, IRadio]
 }
 
 export interface IRadio {
   label: string
-  value: Variants
+  value: AccountType
 }
-
-export type Variants = '1' | '2' | '3';
 
 export const RadioCheckBox = (props: IRadioCheckBox) => {
   return (

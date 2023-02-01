@@ -2,7 +2,7 @@ import React from 'react';
 import type { HEX, Icon } from '../../../types';
 import { IconButton } from '../buttons/iconButton/IconButton';
 
-export interface IEditDeleteButtons {
+export interface IIconButtons {
   color1: HEX
   model1: Icon
   onClick1: () => void
@@ -11,7 +11,7 @@ export interface IEditDeleteButtons {
   onClick2: () => void
 }
 
-export const EditDeleteButtons = (props: IEditDeleteButtons) => {
+export const IconButtons = (props: IIconButtons) => {
   return (
     <>
       <IconButton color={props.color1} model={props.model1} onClick={props.onClick1} />

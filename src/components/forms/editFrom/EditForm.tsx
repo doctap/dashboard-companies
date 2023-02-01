@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { AccountType, IBodyUL, IBodyFIZ, IBodyCHP, IBodyTooIP, ICompanyData, IData } from '../../../api';
 import type { BusinessType, CodeOwnShips, TaxCode } from '../../../types';
-import { InputContainer } from '../../containers';
+import { MarginContainer } from '../../containers';
 import {
   BtnVariants,
   Button,
@@ -10,8 +10,7 @@ import {
   Label,
   Indicator,
   RadioCheckBox,
-  Select,
-  type Variants
+  Select
 } from '../../elements';
 import { FormContainer } from '../index';
 import styles from './EditForm.module.scss';
@@ -32,23 +31,25 @@ export const EditForm = (props: IEditForm) => {
     return collection.get(str) as BusinessType;
   };
   
-  let ownShip = '';
-  let tax = '';
-  
   const companyData = props.companyData.companyData;
   const t = companyData.accountType;
   
   const [companyTin, setCompanyTin] = useState(companyData.companyTin);
   const [companyName, setCompanyName] = useState(companyData.companyName);
+  const [ownership, setOwnership] = useState(companyData.codeOwnShips);
+  const [tax, setTax] = useState(companyData.codeTax);
 
   const onChangeTin = (e: React.ChangeEvent<HTMLInputElement>) => { setCompanyTin(e.currentTarget.value); };
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => { setCompanyName(e.currentTarget.value); };
 
-  const onSelectOwnShip = (v: CodeOwnShips) => { ownShip = v; };
-  const onSelectTax = (v: TaxCode) => { tax = v; };
+  const onSelectOwnShip = (v: CodeOwnShips) => { setOwnership(v); };
+  const onSelectTax = (v: TaxCode) => { setTax(v); };
 
-  const switchType = (): Variants => {
-    return companyData.accountType === 'fiz' ? '3' : companyData.accountType === 'chp' ? '2' : '1';
+  const getDefaultItem = <TCode, TFull>(a: Array<{
+    full: TFull
+    code: TCode
+  }>, c: TCode) => {
+    return a.find(v => v.code === c) as { full: TFull, code: TCode };
   };
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>, k: AccountType) => {
@@ -60,11 +61,11 @@ export const EditForm = (props: IEditForm) => {
         break;
       case 'ip': props.onSubmitTooIP({ companyId: props.idCompany, tax });
         break;
-      case 'chp': props.onSubmitFormPrivatePractice({ ownership: ownShip, companyId: props.idCompany, companyTin, companyName });
+      case 'chp': props.onSubmitFormPrivatePractice({ ownership, companyId: props.idCompany, companyTin, companyName });
         break;
       case 'fiz': props.onSubmitFormNewOrganization({ companyId: props.idCompany, companyName, companyTin });
         break;
-      default: props.onSubmitFormLegalEntity({ companyId: props.idCompany, companyName, companyTin, ownership: ownShip, tax });
+      default: props.onSubmitFormLegalEntity({ companyId: props.idCompany, companyName, companyTin, ownership, tax });
         break;
     }
   };
@@ -72,81 +73,85 @@ export const EditForm = (props: IEditForm) => {
   if (props.companyData.isLoadingData) return <h1 className={styles.Loading}>Loading...</h1>;
   
   return (
-    <>
-      {
-        props.companyData.queryError !== ''
-          ? <h1 className={styles.Error}>{props.companyData.queryError}</h1>
-          : <FormContainer onSubmit={(e) => { submitForm(e, t); }}>
+    <FormContainer onSubmit={(e) => { submitForm(e, t); }}>
 
-            <div className={styles.title}>
-              { t === 'fiz' ? 'Новая организация' : 'Редактировать данные организации'}
-            </div>
+      <div className={styles.title}>
+        { t === 'fiz' ? 'Новая организация' : 'Редактировать данные организации'}
+      </div>
 
-            <div className={styles.RadioButton}>
-              <Indicator
-                defaultValue={getBusinessType(companyData.accountType)}
-                businessTypes={props.business}
-              />
-            </div>
+      <div className={styles.RadioButton}>
+        <Indicator
+          defaultValue={getBusinessType(companyData.accountType)}
+          businessTypes={props.business}
+        />
+      </div>
 
-            {(switchType() !== '1')
-              ? <div className={styles.RadioCheckBox}>
-                <RadioCheckBox
-                  checked={switchType()}
-                  radio={radioItems}
-                />
-              </div>
-              : null}
+      {(t !== 'too' && t !== 'ip')
+        ? <div className={styles.RadioCheckBox}>
+          <RadioCheckBox
+            checked={t}
+            radio={radioItems}
+          />
+        </div>
+        : null}
 
-            {(switchType() !== '1')
-              ? <InputContainer marginBottom='.8rem'>
-                <Label text='Выберите форму собственности' />
-                <Select
-                  options={companyData.ownershipTypes}
-                  onSelectOption={onSelectOwnShip}
-                />
-              </InputContainer>
-              : null}
+      {(t !== 'too' && t !== 'ip')
+        ? <MarginContainer marginBottom='.8rem'>
+          <Label text='Выберите форму собственности' />
+          <Select
+            default={
+              getDefaultItem<CodeOwnShips, string>(
+                companyData.ownershipTypes, companyData.codeOwnShips
+              ).full
+            }
+            options={companyData.ownershipTypes}
+            onSelectOption={onSelectOwnShip}
+          />
+        </MarginContainer>
+        : null}
    
-            {(switchType() === '1')
-              ? <InputContainer marginBottom='.8rem'>
-                <Label text='Выберите систему налогообложения' />
-                <Select
-                  options={companyData.taxTypes}
-                  onSelectOption={onSelectTax}
-                />
-              </InputContainer>
-              : null}
+      {(t !== 'chp' && t !== 'fiz')
+        ? <MarginContainer marginBottom='.8rem'>
+          <Label text='Выберите систему налогообложения' />
+          <Select
+            default={
+              getDefaultItem<TaxCode, string>(
+                companyData.taxTypes, companyData.codeTax
+              ).full
+            }
+            options={companyData.taxTypes}
+            onSelectOption={onSelectTax}
+          />
+        </MarginContainer>
+        : null}
     
-            <InputContainer marginBottom='.8rem'>
-              <Label text='Введите ИИН/БИН' />
-              <InputText disabled={switchType() === '1'} value={companyTin} getValue={onChangeTin} />
-            </InputContainer>
+      <MarginContainer marginBottom='.8rem'>
+        <Label text='Введите ИИН/БИН' />
+        <InputText disabled={t !== 'chp' && t !== 'fiz'} value={companyTin} getValue={onChangeTin} />
+      </MarginContainer>
 
-            <InputContainer marginBottom='1.7rem'>
-              <Label text='Введите название компании' />
-              <InputState
-                disabled={switchType() === '1'}
-                state={companyData.short}
-                value={companyName}
-                getValue={onChangeName}
-              />
-            </InputContainer>
+      <MarginContainer marginBottom='1.7rem'>
+        <Label text='Введите название компании' />
+        <InputState
+          disabled={t !== 'chp' && t !== 'fiz'}
+          state={companyData.short}
+          value={companyName}
+          getValue={onChangeName}
+        />
+      </MarginContainer>
 
-            <div className={t === 'fiz' ? `${styles.bottom} ${styles.bottom_position}` : `${styles.bottom}`}>
-              <div className={styles.submitButton}>
-                <Button
-                  name='save'
-                  text='Сохранить'
-                  onClick={() => 0}
-                  type='submit'
-                  variant={BtnVariants.Primary_model2}
-                />
-              </div>
-            </div>
+      <div className={t === 'fiz' ? `${styles.bottom} ${styles.bottom_position}` : `${styles.bottom}`}>
+        <div className={styles.submitButton}>
+          <Button
+            name='save'
+            text='Сохранить'
+            onClick={() => 0}
+            type='submit'
+            variant={BtnVariants.Primary_model2}
+          />
+        </div>
+      </div>
 
-          </FormContainer>
-      }
-    </>
+    </FormContainer>
   );
 };
