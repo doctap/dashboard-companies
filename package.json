@@ -19,8 +19,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "build-dev": "webpack --mode development",
     "lint": "eslint --ext .ts,.tsx src --fix",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -57,6 +60,13 @@
     "eslint-plugin-react": "^7.32.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "sass": "^1.57.1",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "gh-pages": "^5.0.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "ts-loader": "^9.4.2"
   }
 }
