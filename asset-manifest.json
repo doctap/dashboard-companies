@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3bc4df64.css",
+    "main.js": "/static/js/main.ce0e26df.js",
+    "static/js/787.6e72cd81.chunk.js": "/static/js/787.6e72cd81.chunk.js",
+    "static/media/OpenSans-VariableFont_wdth,wght.ttf": "/static/media/OpenSans-VariableFont_wdth,wght.ceb05254cedfa895b512.ttf",
+    "static/media/MaterialIcons-Regular.eot": "/static/media/MaterialIcons-Regular.4674f8ded773cb03e824.eot",
+    "static/media/MaterialIcons-Regular.ttf": "/static/media/MaterialIcons-Regular.5e7382c63da0098d634a.ttf",
+    "static/media/MaterialIcons-Regular.woff": "/static/media/MaterialIcons-Regular.83bebaf37c09c7e1c3ee.woff",
+    "static/media/MaterialIcons-Regular.woff2": "/static/media/MaterialIcons-Regular.cff684e59ffb052d72cb.woff2",
+    "index.html": "/index.html",
+    "main.3bc4df64.css.map": "/static/css/main.3bc4df64.css.map",
+    "main.ce0e26df.js.map": "/static/js/main.ce0e26df.js.map",
+    "787.6e72cd81.chunk.js.map": "/static/js/787.6e72cd81.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3bc4df64.css",
+    "static/js/main.ce0e26df.js"
+  ]
+}
