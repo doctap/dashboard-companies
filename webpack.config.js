@@ -1,34 +1,31 @@
-/* eslint-disable no-undef */
-
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  target: ["web", "es3"]
-}
+  target: ['web', 'es3']
+};
 
 module.exports = (env, argv) => {
-  console.log(`This is the Webpack 5 "mode": ${JSON.stringify(argv)}`);
-  console.log(`This is the Webpack 5 "mode": ${JSON.stringify(env)}`);
-  console.log(__dirname)
+  console.log(`This is the Webpack 5 'mode': ${JSON.stringify(argv)}`);
+  console.log(`This is the Webpack 5 'mode': ${JSON.stringify(env)}`);
   return {
     mode: argv.mode,
-    entry: "./src/index.tsx",
+    entry: './src/index.tsx',
     output: {
-      filename: "main.js",
-      path: path.resolve(__dirname, "./dist"),
+      filename: 'main.js',
+      path: path.resolve(__dirname, './dist'),
       clean: true,
-      publicPath: "./",
-      assetModuleFilename: "src/assets/[name][ext]",
+      publicPath: './',
+      assetModuleFilename: 'src/assets/[name][ext]'
     },
-    devtool: "inline-source-map",
+    devtool: 'inline-source-map',
     resolve: {
-      extensions: [".tsx", ".ts", ".js"],
+      extensions: ['.tsx', '.ts', '.js']
     },
     devServer: {
       static: {
-        directory: path.join(__dirname, "/dist"),
+        directory: path.join(__dirname, '/dist')
       },
       compress: true,
       port: 3000,
@@ -40,32 +37,32 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.(js|ts)x?$/,
-          loader: "ts-loader",
+          loader: 'ts-loader'
         },
         {
           test: /\.(s[ac]ss|css)$/i,
           use: [
             // Creates `style` nodes from JS strings
-            { loader: "style-loader" },
+            { loader: 'style-loader' },
             // Translates CSS into CommonJS
-            { loader: "css-loader" },
+            { loader: 'css-loader' },
             // Compiles Sass to CSS
-            { loader: "sass-loader", options: { sourceMap: true } },
-          ],
+            { loader: 'sass-loader', options: { sourceMap: true } }
+          ]
         },
         {
           test: /\.(png|jpe?g|gif|svg|woff|woff2|eot|ttf|otf)$/i,
-          type: "asset/resource",
-        },
+          type: 'asset/resource'
+        }
       ]
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, "public", "index.html"),
+        template: path.resolve(__dirname, 'public', 'index.html')
       }),
       new MiniCssExtractPlugin({
-        filename: "./src/index.css",
-      }),
-    ],
+        filename: './src/index.css'
+      })
+    ]
   };
-}
+};

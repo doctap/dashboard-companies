@@ -14,7 +14,8 @@
   ],
   "overrides": [],
   "parserOptions": {
-    "project": "./tsconfig.json",
+    "project": ["./tsconfig.json"],
+    "tsconfigRootDir": "./",
     "ecmaFeatures": {
       "jsx": true
     },
@@ -26,7 +27,12 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "react/display-name": ["off", { "ignoreTranspilerName": true }],
+    "react/display-name": [
+      "off",
+      {
+        "ignoreTranspilerName": true
+      }
+    ],
     "require-jsdoc": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/ban-types": "off",
@@ -44,12 +50,15 @@
       "error",
       "always"
     ],
-    "no-fallthrough": ["off"],
+    "no-fallthrough": [
+      "off"
+    ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-var-requires": "off",
     "no-trailing-spaces": [
       "error",
       {

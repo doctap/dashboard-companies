@@ -1,5 +1,11 @@
-import { DELETE_COMPANY_SERVER, GET_COMPANIES_SERVER, GET_COMPANY_DATA_BY_ID_SERVER, type IOwnershipsServe, POST_REQUEST_CHP, POST_REQUEST_FIZ, POST_REQUEST_TOO_IP, type IFormResponseServer, type ICompanyServe } from '../../mybuh';
-
+import {
+  DELETE_COMPANY_SERVER,
+  GET_COMPANIES_SERVER, GET_COMPANY_DATA_BY_ID_SERVER,
+  type IOwnershipsServe,
+  POST_REQUEST_CHP, POST_REQUEST_FIZ, POST_REQUEST_TOO_IP,
+  type IFormResponseServer,
+  type ICompanyServe
+} from '../../mybuh';
 import { companySlice } from '../../redux/reducers/CompanySlice';
 import type { AppDispatch } from '../../redux/store/store';
 import { base64 as building } from '../../images/building/base64';
@@ -7,7 +13,6 @@ import type { ICompany, ICompanyResponse, ICompanyData, IBodyTooIP, IBodyCHP, IB
 import { companyDataSlice } from '../../redux/reducers/CompanyDataSlice';
 import { ownerships } from '../../mybuh/ownerships';
 import { companies } from '../../mybuh/companies';
-import type { CodeOwnShips } from '../../types';
 
 export const validatorCompany = (comp: ICompanyResponse[]) => {
   const companyRes = comp.filter(v => v.shortName !== null);
