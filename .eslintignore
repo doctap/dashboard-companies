@@ -1,7 +1,8 @@
 # Configs
-/webpack.config.js
+*.config.*
 
 # folders
 
 
 # files
+*.test.*
