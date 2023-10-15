@@ -12,8 +12,8 @@ export const Users = () => {
   const getUsers = async () => {
     try {
       const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-      const data: User[] = response.data.map((v: any) => v.id);
-      setUsers(data);
+      // const data: User[] = response.data.map((v: any) => v.id);
+      setUsers(response.data);
     } catch (e: any) {
       console.error(e);
     }
@@ -24,8 +24,8 @@ export const Users = () => {
   }, []);
 
   return (
-    <div role='listitem'>
-      {users.map(v => <div key={v.id}>{v.name}</div>)}
+    <div>
+      {users.map(v => <div data-testid='div-item' key={v.id}>{v.name}</div>)}
     </div>
   );
 };
